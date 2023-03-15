@@ -11,12 +11,25 @@ import { ApolloServer, gql } from "apollo-server";
   }
  ]
 
+ let users = [
+  {
+    id : "1",
+    firstName: "ko",
+    lastName: "minsub"
+  },
+  {
+    id : "2",
+    firstName : "mage",
+    lastName : "ice"
+  }
+ ];
+
 const typeDefs = gql`
   type User{
     id: ID!
-    username: String!
     firstName: String!
-    lastName: String
+    lastName: String!
+    fullName: String!
   }
   type Tweet{
     id: ID!
@@ -24,9 +37,9 @@ const typeDefs = gql`
     author: User
   }
   type Query {
+    allUsers: [User!]!
     allTweets: [Tweet!]!
     tweet(id:ID!): Tweet
-    ping: String!
   }
   type Mutation {
     postTweet(text:String!, userId:ID!): Tweet!
@@ -41,6 +54,10 @@ const resolvers = {
     },
     tweet(root, {id}){
       return tweets.find((tweet) => tweet.id === id);
+    },
+    allUsers(){
+      console.log("all users call");
+      return users;
     }
   },
   Mutation: {
@@ -57,6 +74,11 @@ const resolvers = {
       if (!tweet) return false;
       tweets = tweets.filter(tweet => tweet.id !== id);
       return true;
+    }
+  },
+  User: {
+    fullName({firstName, lastName}){
+      return `${firstName} ${lastName}`;
     }
   }
 }
