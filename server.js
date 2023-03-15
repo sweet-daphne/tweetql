@@ -3,11 +3,13 @@ import { ApolloServer, gql } from "apollo-server";
  let tweets = [
   {
     id : "1",
-    text : "frist one"
+    text : "frist one",
+    userId: "2"
   },
   {
     id : "2",
-    text : "second one"
+    text : "second one",
+    userId : "1"
   }
  ]
 
@@ -79,6 +81,11 @@ const resolvers = {
   User: {
     fullName({firstName, lastName}){
       return `${firstName} ${lastName}`;
+    }
+  },
+  Tweet: {
+    author({userId}){
+      return users.find((user) => user.id === userId);
     }
   }
 }
