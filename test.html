@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+</head>
+<body>
+  <script>
+
+    var text = `
+      <SPAN style="FONT-SIZE: 10pt"><FONT face=굴림>  <P><SPAN style='FONT-SIZE: 10pt; font-family: Tahoma;'>안녕하십니까
+      </SPAN><SPAN lang=EN-US style="font-family: Tahoma;">C8C8</span>
+    `;
+
+    let str = 'hello world';
+    
+    function strFindAndChange(str, searchValue) {
+      let resultStr = str;
+      let pos = 0;
+      while(true) {
+        let posFind = resultStr.indexOf(searchValue, pos);
+        if(posFind === -1) break;
+        resultStr = changeString(resultStr,posFind,searchValue);
+      }
+      return resultStr;
+    }
+
+    function changeString(str,pos,searchValue){
+      const MaxNumberArray = [];
+      let find_1 = str.indexOf(';',pos);
+      let find_2 = str.indexOf(`"`,pos);
+      let find_3 = str.indexOf(`'`,pos);
+
+      if(find_1 > -1) MaxNumberArray.push(find_1 + 1);
+      if(find_2 > -1) MaxNumberArray.push(find_2);
+      if(find_3 > -1) MaxNumberArray.push(find_3);
+
+      let endPos = Math.min(...MaxNumberArray);
+      let replaceStr = str.slice(pos,endPos);
+      let remakeStr = str.replace(replaceStr,'');
+      return remakeStr;
+    }
+
+    console.log(strFindAndChange(text, 'font-family'));
+    
+  </script>
+  
+</body>
+</html>
